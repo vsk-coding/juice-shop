@@ -1,4 +1,4 @@
-FROM node:12 as installer
+FROM node:12 as var
 COPY . /juice-shop
 WORKDIR /juice-shop
 RUN npm install --production --unsafe-perm
@@ -11,7 +11,7 @@ ARG VCS_REF
 WORKDIR /juice-shop
 RUN addgroup --system --gid 1001 juicer && \
     adduser juicer --system --uid 1001 --ingroup juicer
-COPY --from=installer --chown=juicer /juice-shop .
+COPY --from=var --chown=juicer /juice-shop .
 RUN mkdir logs && \
     chown -R juicer logs && \
     chgrp -R 0 ftp/ frontend/dist/ logs/ data/ i18n/ && \
